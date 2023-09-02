@@ -1,0 +1,17 @@
+[package]
+name = "aes-gcm-stream"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aead = { version = "0.5", default-features = false }
+aes = { version = "0.8" }
+cipher = "0.4"
+ctr = "0.9"
+ghash = { version = "0.5", default-features = false }
+subtle = { version = "2", default-features = false }
+zeroize = { version = "1", optional = true, default-features = false }
+
+[dev-dependencies]
+aead = { version = "0.5", features = ["dev"], default-features = false }
+hex-literal = "0.3"
