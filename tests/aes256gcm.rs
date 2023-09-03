@@ -3018,38 +3018,38 @@ const TEST_VECTORS: &[TestVector<[u8; 32]>] = &[
 
 #[test]
 fn test_encrypt() {
-    for vector in TEST_VECTORS {
-        let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
+  for vector in TEST_VECTORS {
+    let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
 
-        let mut cipher = AesGcm::<Aes256>::new(key);
+    let mut cipher = AesGcm::<Aes256>::new(key);
 
-        cipher.set_aad(vector.aad);
+    cipher.set_aad(vector.aad);
 
-        cipher.init(vector.nonce);
-        let mut p = vector.plaintext.to_vec();
-        cipher.encrypt(&mut p);
-        let tag = cipher.finish();
+    cipher.init(vector.nonce);
+    let mut p = vector.plaintext.to_vec();
+    cipher.encrypt(&mut p);
+    let tag = cipher.finish();
 
-        assert_eq!(vector.ciphertext, p);
-        assert_eq!(vector.tag, tag.as_slice());
-    }
+    assert_eq!(vector.ciphertext, p);
+    assert_eq!(vector.tag, tag.as_slice());
+  }
 }
 
 #[test]
 fn test_decrypt() {
-    for vector in TEST_VECTORS {
-        let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
-        let mut ciphertext = Vec::from(vector.ciphertext);
+  for vector in TEST_VECTORS {
+    let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
+    let mut ciphertext = Vec::from(vector.ciphertext);
 
-        let mut cipher = AesGcm::<Aes256>::new(key);
+    let mut cipher = AesGcm::<Aes256>::new(key);
 
-        cipher.set_aad(vector.aad);
-        cipher.init(vector.nonce);
+    cipher.set_aad(vector.aad);
+    cipher.init(vector.nonce);
 
-        cipher.decrypt(&mut ciphertext);
-        let tag = cipher.finish();
+    cipher.decrypt(&mut ciphertext);
+    let tag = cipher.finish();
 
-        assert_eq!(vector.plaintext, ciphertext.as_slice());
-        assert_eq!(vector.tag, tag.as_slice());
-    }
+    assert_eq!(vector.plaintext, ciphertext.as_slice());
+    assert_eq!(vector.tag, tag.as_slice());
+  }
 }
