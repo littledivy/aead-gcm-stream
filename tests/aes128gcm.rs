@@ -5,8 +5,8 @@ use aes::Aes128;
 use cipher::consts::U16;
 use hex_literal::hex;
 
-use common::TestVector;
 use aes_gcm_stream::AesGcm;
+use common::TestVector;
 
 /// NIST CAVS vectors
 ///

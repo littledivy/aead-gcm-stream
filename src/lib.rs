@@ -92,7 +92,7 @@ where
     fn encrypt_block_inner(&mut self, block: &mut [u8]) {
         self.inc();
         let mut ek = self.j0;
-        self.cipher.encrypt_block(&mut ek); 
+        self.cipher.encrypt_block(&mut ek);
 
         block.iter_mut().zip(ek).for_each(|(a, b)| *a ^= b);
     }
