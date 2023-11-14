@@ -6,7 +6,7 @@ use ghash::{universal_hash::UniversalHash, GHash};
 
 mod ctr;
 
-use ctr::Ctr;
+use crate::ctr::Ctr;
 
 pub struct AesGcm<Aes>
 where
