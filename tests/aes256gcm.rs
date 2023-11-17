@@ -5,7 +5,7 @@ use aes::Aes256;
 use cipher::consts::U32;
 use hex_literal::hex;
 
-use aes_gcm_stream::AesGcm;
+use aead_gcm_stream::AesGcm;
 use common::TestVector;
 
 /// NIST CAVS vectors
