@@ -1,6 +1,6 @@
 mod common;
 
-use aead::{generic_array::GenericArray, KeyInit};
+use aead::generic_array::GenericArray;
 use aes::Aes128;
 use cipher::consts::U16;
 use hex_literal::hex;
@@ -3021,11 +3021,10 @@ fn test_encrypt() {
   for vector in TEST_VECTORS {
     let key: &GenericArray<u8, U16> = GenericArray::from_slice(vector.key);
 
-    let mut cipher = AesGcm::<Aes128>::new(key);
+    let mut cipher = AesGcm::<Aes128>::new(&key, vector.nonce);
 
     cipher.set_aad(vector.aad);
 
-    cipher.init(vector.nonce);
     let mut p = vector.plaintext.to_vec();
     cipher.encrypt(&mut p);
     let tag = cipher.finish();
@@ -3041,10 +3040,9 @@ fn test_decrypt() {
     let key: &GenericArray<u8, U16> = GenericArray::from_slice(vector.key);
     let mut ciphertext = Vec::from(vector.ciphertext);
 
-    let mut cipher = AesGcm::<Aes128>::new(key);
+    let mut cipher = AesGcm::<Aes128>::new(key, vector.nonce);
 
     cipher.set_aad(vector.aad);
-    cipher.init(vector.nonce);
 
     cipher.decrypt(&mut ciphertext);
     let tag = cipher.finish();
@@ -3063,10 +3061,9 @@ fn encrypt_no_data() {
     160, 56, 248, 75, 148, 220, 251, 4, 34, 185, 85, 34, 190, 206, 136, 0,
   ];
 
-  let mut cipher = AesGcm::<Aes128>::new(&KEY.into());
+  let mut cipher = AesGcm::<Aes128>::new(&KEY.into(), &NONCE);
 
   cipher.set_aad(&AAD);
-  cipher.init(&NONCE);
   let tag = cipher.finish();
 
   assert_eq!(tag.as_slice(), &TAG);
@@ -3087,10 +3084,9 @@ fn encrypt_1_data_block() {
 
   let mut data = PT;
 
-  let mut cipher = AesGcm::<Aes128>::new(&KEY.into());
+  let mut cipher = AesGcm::<Aes128>::new(&KEY.into(), &NONCE);
 
   cipher.set_aad(&AAD);
-  cipher.init(&NONCE);
 
   cipher.encrypt(&mut data);
 
@@ -3114,10 +3110,9 @@ fn decrypt_1_data_block() {
   ];
 
   let mut data = CT;
-  let mut cipher = AesGcm::<Aes128>::new(&KEY.into());
+  let mut cipher = AesGcm::<Aes128>::new(&KEY.into(), &NONCE);
 
   cipher.set_aad(&AAD);
-  cipher.init(&NONCE);
 
   cipher.decrypt(&mut data);
 
@@ -3139,10 +3134,9 @@ fn decrypt_padded_data() {
   ];
 
   let mut data = CT;
-  let mut cipher = AesGcm::<Aes128>::new(&KEY.into());
+  let mut cipher = AesGcm::<Aes128>::new(&KEY.into(), &NONCE);
 
   cipher.set_aad(&AAD);
-  cipher.init(&NONCE);
 
   cipher.decrypt(&mut data);
 
@@ -3150,4 +3144,28 @@ fn decrypt_padded_data() {
 
   assert_eq!(tag.as_slice(), &TAG);
   assert_eq!(data.as_slice(), &PT);
+}
+
+#[test]
+fn decrypt_stream() {
+  const KEY: [u8; 16] = [0; 16];
+  const NONCE: [u8; 12] = [0; 12];
+
+  let mut cipher = AesGcm::<Aes128>::new(&KEY.into(), &NONCE);
+  cipher.set_aad(&[]);
+  let mut p1 = b"hello".to_vec();
+  cipher.encrypt(&mut p1);
+
+  let mut p2 = b"world".to_vec();
+  cipher.encrypt(&mut p2);
+
+  let tag = cipher.finish();
+
+  let c1 = hex::encode(p1);
+  let c2 = hex::encode(p2);
+  let tag = hex::encode(tag.as_slice());
+
+  assert_eq!(c1, "6bedb6a20f");
+  assert_eq!(c2, "c1cce09f4c");
+  assert_eq!(tag, "bf6d20a38e0c828bea3de63b7ff1dfbd");
 }

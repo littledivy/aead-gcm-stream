@@ -1,6 +1,6 @@
 mod common;
 
-use aead::{generic_array::GenericArray, KeyInit};
+use aead::generic_array::GenericArray;
 use aes::Aes256;
 use cipher::consts::U32;
 use hex_literal::hex;
@@ -3021,11 +3021,10 @@ fn test_encrypt() {
   for vector in TEST_VECTORS {
     let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
 
-    let mut cipher = AesGcm::<Aes256>::new(key);
+    let mut cipher = AesGcm::<Aes256>::new(key, vector.nonce);
 
     cipher.set_aad(vector.aad);
 
-    cipher.init(vector.nonce);
     let mut p = vector.plaintext.to_vec();
     cipher.encrypt(&mut p);
     let tag = cipher.finish();
@@ -3041,10 +3040,9 @@ fn test_decrypt() {
     let key: &GenericArray<u8, U32> = GenericArray::from_slice(vector.key);
     let mut ciphertext = Vec::from(vector.ciphertext);
 
-    let mut cipher = AesGcm::<Aes256>::new(key);
+    let mut cipher = AesGcm::<Aes256>::new(key, vector.nonce);
 
     cipher.set_aad(vector.aad);
-    cipher.init(vector.nonce);
 
     cipher.decrypt(&mut ciphertext);
     let tag = cipher.finish();

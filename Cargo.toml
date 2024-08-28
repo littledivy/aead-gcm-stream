@@ -1,6 +1,6 @@
 [package]
 name = "aead-gcm-stream"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Pure Rust implementaion of AES GCM cipher for data streams"
 license = "MIT"
@@ -18,3 +18,4 @@ zeroize = { version = "1", optional = true, default-features = false }
 [dev-dependencies]
 aead = { version = "0.5", features = ["dev"], default-features = false }
 hex-literal = "0.3"
+hex = "0.4"

@@ -15,13 +15,14 @@ dependencies = [
 
 [[package]]
 name = "aead-gcm-stream"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "aead",
  "aes",
  "cipher",
  "ctr",
  "ghash",
+ "hex",
  "hex-literal",
  "subtle",
  "zeroize",
@@ -107,6 +108,12 @@ dependencies = [
  "opaque-debug",
  "polyval",
 ]
+
+[[package]]
+name = "hex"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hex-literal"
