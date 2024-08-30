@@ -8,8 +8,7 @@ Pure Rust implementaion of AES GCM cipher for data streams.
 use aead_gcm_stream::AesGcm;
 use aes::Aes128;
 
-let mut cipher = AesGcm::<Aes128>::new(&key);
-cipher.init(nonce);
+let mut cipher = AesGcm::<Aes128>::new(&key, nonce);
 
 cipher.encrypt(&mut data);
 
