@@ -15,7 +15,7 @@ dependencies = [
 
 [[package]]
 name = "aead-gcm-stream"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "aead",
  "aes",
