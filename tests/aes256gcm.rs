@@ -3014,6 +3014,22 @@ const TEST_VECTORS: &[TestVector<[u8; 32]>] = &[
         ciphertext: &hex!("488b40ad594e1845ccdd9e9467fc5e1afbbfde34e57d45bfcd30b61cc326d57fe8e3f31a39cdebf00f60bbd2c3cdf69f756eff"),
         tag: &hex!("3bf3fbab9b48486fd08a5552604df639"),
     },
+    TestVector {
+        key: &hex!("bb4635d766dd0e4a7019d1724c736e1f2c016af9e29e7d3aa2c0de23e780af26"),
+        nonce: &hex!("ab"),
+        plaintext: &hex!("d05ce878d94662d1520b184b4bef3c45"),
+        aad: &hex!("0f85c7dbeb674b7a70c35125d3619350"),
+        ciphertext: &hex!("51baa26a6a719c1600645ff3bfdfa53b"),
+        tag: &hex!("6bd54e5184eb300934b392c32b7c1a6e"),
+    },
+    TestVector {
+        key: &hex!("fcbc7eb62716dc7f792b6194d26d6d569eaee07a9d3c37ca42854090661e1845"),
+        nonce: &hex!("4c8c4624279b23b495c788844c76d225ebf23826599c3e1cf4db1da2d65a7f7544d8e86fcc33fb113d3174b8c7903122cb5967f6107382cc5ac6e7a0e4ca4f08de3e911d483e68253d3f886cfe349bf93299a28e665bc096a51ce84ce6940b34a037722483b96a7b25507f5a04643c6730faaab618e6231a727714d6f366fa9b"),
+        plaintext: &hex!("22144fc12f7bc5522b88b76c8ded1c76"),
+        aad: &hex!("3c182af19c46ff4acbdacecf70b42fb5"),
+        ciphertext: &hex!("c8d98107c0cb3c0fd2189ae97280d562"),
+        tag: &hex!("2906772330ecd9a3b8a82876a4ebdeea"),
+    },
 ];
 
 #[test]

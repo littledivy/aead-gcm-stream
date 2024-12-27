@@ -138,7 +138,24 @@ where
     use cipher::StreamCipherSeek;
 
     let mut nonce_block = GenericArray::default();
-    nonce_block[..nonce.len()].copy_from_slice(nonce);
+    if nonce.len() == 12 {
+      nonce_block[..nonce.len()].copy_from_slice(nonce);
+    } else {
+      // We calculate GHASH(nonce || padding || 0^64 || len_u64(nonce)) to get J0 (initial counter block)
+      // See NIST SP 800-38D, section 7.1, algorithm 4, step 2 or section 7.2, algorithm 5, step 3
+      // https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf
+      let mut ghash = GHash::new(&ghash_key);
+      ghash.update_padded(nonce);
+      ghash.update_padded(&(8 * nonce.len() as u128).to_be_bytes());
+      nonce_block.copy_from_slice(&ghash.finalize());
+      // We subtract 1 from the counter block to align with the CTR implementation below
+      for i in nonce_block.iter_mut().rev() {
+        *i = i.wrapping_sub(1);
+        if *i != 0xff {
+          break;
+        }
+      }
+    }
     let mut ctr = ctr::Ctr32BE::from_core(ctr::CtrCore::inner_iv_init(
       cipher,
       &nonce_block,

@@ -3014,6 +3014,22 @@ TestVector {
     ciphertext: &hex!("ba59002df3394c5b80983519dc163eca5c44df80f8c4c4e15d3ff73f13c170c80a59d87a2165a7b450be01031a8e41c505c89f"),
     tag: &hex!("28418c564731bddf3d504d8ed32e66ee"),
 },
+TestVector {
+    key: &hex!("83f9d97d4ab759fddcc3ef54a0e2a8ec"),
+    nonce: &hex!("cf"),
+    plaintext: &hex!("77e6329cf9424f71c808df9170bfd298"),
+    aad: &hex!("6dd49eaeb4103dac8f97e3234946dd2d"),
+    ciphertext: &hex!("50de86a7a92a8a5ea33db5696b96cd77"),
+    tag: &hex!("aa181e84bc8b4bf5a68927c409d422cb"),
+},
+TestVector {
+    key: &hex!("ca91e2414409a439b06573d772f90afb"),
+    nonce: &hex!("177008f920a06169ccdf753a338553fefd46845869c9244da44997f83d4ce805a18707c84d114f9c68427b22841591e6caecf5c3e72a25167aa860c51bdc1aa56dcd69f29a2f35e70a322b9eba092a98d66a956b4d294383a0ebab26f7c4df1a5d4060dfc45a14155100ea7d9e32debb6537406b757291710505142e7659fc77"),
+    plaintext: &hex!("28003e30c4a4ca9e41aafefac1e1c3de"),
+    aad: &hex!("bfeb15fcf7b15f0e14c04439b67950bd"),
+    ciphertext: &hex!("00e472971f3a7770aa7158fd92f17bb7"),
+    tag: &hex!("16661b85eb51646c94cf2be4e42d7a8e"),
+},
 ];
 
 #[test]
